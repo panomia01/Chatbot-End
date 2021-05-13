@@ -1,23 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Chatbot from "./Components/Chatbot/Chatbot"
+import Recorder from "./Components/Recorder/Recorder"
+import test from "./Images/giphy.gif"
+import { ImageBackground } from 'react-native';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+       <ImageBackground source={test} style={{width: '100%', height: '100vh', }}>
+       <Chatbot/>
+       <Recorder/>
+       </ImageBackground> 
     </div>
   );
 }
