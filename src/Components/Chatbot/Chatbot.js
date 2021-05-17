@@ -8,7 +8,7 @@ var AWS = require('aws-sdk');
 var control = 0;
 function Chatbot() {
 //const[testvar, setvar] = useState('')
-const[APIres, setresponse] = useState()
+const[APIres, setresponse] = useState("Please say Pizza to start")
 
 /*const data = {
   "input" : "pizza"
@@ -132,7 +132,10 @@ const testaudio = () => {
 }
 
   return (
-    <div>
+    <div 
+      style = {{
+        color: "#fbc02d"
+      }}>
       <h2>{APIres}</h2>
     </div>
   );

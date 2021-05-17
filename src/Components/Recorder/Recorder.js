@@ -2,6 +2,7 @@ import React, { Component, setState } from 'react';
 import RecorderJS from 'recorder-js';
 import { getAudioStream, exportBuffer } from "../Audio/audio"
 import hark from 'hark'
+import styled from "styled-components";
 import showText from '../Chatbot/Chatbot';
 import {control} from '../Chatbot/Chatbot'
 
@@ -116,16 +117,31 @@ class App extends Component {
       return null;
     }
 
+    const Button = styled.button`
+    background-color: black;
+    color: white;
+    font-size: 20px;
+    padding: 10px 60px;
+    border-radius: 5px;
+    margin: 10px 0px;
+    cursor: pointer;
+    &:disabled {
+    color: grey;
+    opacity: 0.7;
+    cursor: default;
+
+  }
+`;
     
 
     return (
-        <div>
-      <button onClick={() => {
+      <div>
+      <Button onClick={() => {
           recording ? this.stopRecord() : this.startRecord();
         }}
         >
         {recording ? 'Stop Recording' : 'Start Recording'}
-      </button>
+      </Button>
       </div>
     );
   }
