@@ -4,7 +4,7 @@ import { getAudioStream, exportBuffer } from "../Audio/audio"
 import hark from 'hark'
 import styled from "styled-components";
 import showText from '../Chatbot/Chatbot';
-import {control} from '../Chatbot/Chatbot'
+import {control,dialogstate1,setdialogstate} from '../Chatbot/Chatbot'
 
 var audio = ""
 var bootest = 1;
@@ -44,6 +44,10 @@ class App extends Component {
 
     setInterval(() => {
       //console.log('Interval triggered');
+      if(dialogstate1 === 'ElicitSlot'){
+        this.startRecord()
+        setdialogstate("")
+      }
       if (bootest === 0)
     {
       this.stopRecord()

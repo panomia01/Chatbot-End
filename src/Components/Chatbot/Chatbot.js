@@ -6,6 +6,7 @@ import App from '../Recorder/Recorder'
 
 var AWS = require('aws-sdk');
 var control = 0;
+var dialogstate1 =0;
 function Chatbot() {
 //const[testvar, setvar] = useState('')
 const[APIres, setresponse] = useState("Please say Pizza to start")
@@ -44,6 +45,7 @@ AWS.config.region = 'us-east-1'; // Region
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
   // Provide your Pool Id here
       IdentityPoolId: 'us-east-1:a965f9d5-6111-4304-8cd7-df318a38551d',
+      region: 'us-east-1'
   });
 var lexruntime = new AWS.LexRuntime();
 const test1 = (err, data) => {
@@ -115,6 +117,9 @@ async function showText() {
   //let audio2 = new Audio(audioStream);
   //audio2.play();
   let { message } = response
+  let { dialogState } = response
+  dialogstate1 = dialogState
+  console.log(dialogState)
   console.log(message)
   await speak({ text: message })
   setresponse(message)
@@ -141,7 +146,11 @@ const testaudio = () => {
   );
 }
 
-export {control}
+function setdialogstate(value){
+  dialogstate1 = value
+}
+
+export {control,dialogstate1,setdialogstate}
 export default Chatbot;
 
 //<button onClick = {showText}>Test</button>
