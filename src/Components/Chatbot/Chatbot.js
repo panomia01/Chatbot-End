@@ -21,16 +21,16 @@ useEffect(async () => {
     //console.log('Interval triggered');
     if(merger === 1){
       setMerger(0)
-      showText();
+      ShowText();
     }
-  }, 100);
+  }, 200);
 })
 
 
 
 var params = {
-  botAlias: 'pizzabot', /* required */
-  botName: 'PizzaOrderingBot', /* required */
+  botAlias: 'pizzaorderingbot', /* required */
+  botName: 'pizzabotdup', /* required */
   //inputText: `input`, /* required */
   contentType: 'audio/x-l16; sample-rate=16000; channel-count=1', /*required audio/x-l16; sample-rate=16000; channel-count=1*/
   //inputStream: input,
@@ -77,7 +77,8 @@ async function PostToAPI(input) {
 } 
 let audioUrl1
 const { speak } = useSpeechSynthesis();
-async function showText() {
+
+async function ShowText() {
   /*try {
     let response = fetch('https://4y8vwpmd92.execute-api.us-east-1.amazonaws.com/test', {
       method: 'POST',
@@ -96,6 +97,7 @@ async function showText() {
     input : audio
   }
   console.log(data)*/
+  console.log("2")
   let response = await PostToAPI(audio);
   console.log(response);
   //let audioUrl = URL.createObjectURL(response);
@@ -121,7 +123,8 @@ async function showText() {
   dialogstate1 = dialogState
   console.log(dialogState)
   console.log(message)
-  await speak({ text: message })
+  
+  speak({ text: message })
   setresponse(message)
 }
 
@@ -130,11 +133,6 @@ const playblob = () => {
   audio2.play()
 }
 
-const testaudio = () => {
-  //speak({ text: value })
-  showText()
-  speak({ text: APIres })
-}
 
   return (
     <div 

@@ -4,7 +4,7 @@ import { getAudioStream, exportBuffer } from "../Audio/audio"
 import hark from 'hark'
 import styled from "styled-components";
 import showText from '../Chatbot/Chatbot';
-import {control,dialogstate1,setdialogstate} from '../Chatbot/Chatbot'
+import Chatbot, {control,dialogstate1,setdialogstate} from '../Chatbot/Chatbot'
 
 var audio = ""
 var bootest = 1;
@@ -52,10 +52,9 @@ class App extends Component {
     {
       this.stopRecord()
       console.log('1')
-      merger = 1;
       bootest = 1;
     }
-    }, 10);
+    }, 1);
   }
 
     startRecord() {
@@ -79,10 +78,11 @@ class App extends Component {
     speechEvents.on('speaking', function() {
       console.log('speaking');
     });
-
+    
     speechEvents.on('stopped_speaking', function() {
       console.log('stopped_speaking');
       bootest = 0 
+      recorder.stop()
       speechEvents.stop()
     })
 
@@ -93,16 +93,16 @@ class App extends Component {
     
   }
 
-  async stopRecord() {
+   async stopRecord() {
     const { recorder } = this.state;
     var { buffer } = await recorder.stop()
     audio = exportBuffer(buffer[0]);
-    
     // Process the audio here.
     console.log(audio);
-
+    console.log("3")
     this.setState({recording: false});
     //showText();
+    merger = 1;
   }
 
   async playRecord() {
