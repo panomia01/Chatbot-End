@@ -6,6 +6,7 @@ import styled from "styled-components";
 import showText from '../Chatbot/Chatbot';
 import Chatbot, {control,dialogstate1,setdialogstate} from '../Chatbot/Chatbot'
 
+
 var audio = ""
 var bootest = 1;
 var merger = 0;
@@ -20,7 +21,7 @@ class App extends Component {
     this.state = {
       stream: null,
       recording: false,
-      recorder: null
+      recorder:  new RecorderJS()
     };  
     this.startRecord = this.startRecord.bind(this);
     this.stopRecord = this.stopRecord.bind(this);
@@ -75,33 +76,31 @@ class App extends Component {
       }
     );
     var speechEvents = hark(stream);
-    speechEvents.on('speaking', function() {
+      speechEvents.on('speaking', function() {
       console.log('speaking');
     });
     
     speechEvents.on('stopped_speaking', function() {
       console.log('stopped_speaking');
       bootest = 0 
-      recorder.stop()
       speechEvents.stop()
     })
-
-    // if(this.bootest === false){
-    //   this.setState({recording: false});
-    //   console.log("1")
-    // }
     
   }
 
    async stopRecord() {
+     //try{
     const { recorder } = this.state;
     var { buffer } = await recorder.stop()
     audio = exportBuffer(buffer[0]);
     // Process the audio here.
     console.log(audio);
     console.log("3")
+     //}
+     //catch{
+       //console.log("error")
+     //}
     this.setState({recording: false});
-    //showText();
     merger = 1;
   }
 
@@ -133,7 +132,6 @@ class App extends Component {
     color: grey;
     opacity: 0.7;
     cursor: default;
-
   }
 `;
     
@@ -154,14 +152,3 @@ class App extends Component {
 export { merger, setMerger }
 export { audio }
 export default App;
-/*return (
-        <div>
-      <button onClick={() => {
-          recording ? this.stopRecord() : this.startRecord();
-        }}
-        >
-        {recording ? 'Stop Recording' : 'Start Recording'}
-      </button>
-      <button onClick = {this.playRecord}>play</button>
-      </div>
-    );*/

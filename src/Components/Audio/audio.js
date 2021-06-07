@@ -27,7 +27,6 @@
         });
       };
     }
-  
     const params = { audio: true, video: false };
   
     return navigator.mediaDevices.getUserMedia(params);
