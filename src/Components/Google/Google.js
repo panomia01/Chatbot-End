@@ -11,7 +11,7 @@ import toiletimg from "../Images/toilet.png"
 
 var tolietvisibility = true
 var mapvisibility = "visible"
-
+/* To input more marker information */
 let MarkerArray = [ 
   {location:{lat:  1.3378350968792068, lng: 103.7270208845623}, 
   imageIcon: "R", 
@@ -24,9 +24,9 @@ let MarkerArray = [
   
 
 ]
-
+/* to set user location which could be taken from the gps unit from the robot */
 var UserLocation = { lat: 1.340970315458366, lng: 103.7247124914211}
-
+/* To set origin and destination of the direction service */
 export const origin = UserLocation;
 export const destination = MarkerArray[0].location;
 
@@ -78,6 +78,7 @@ class Map extends Component {
 
   render() {
     const { toileticon } = this.state;
+    /* Creation of the google map */
     const GoogleMapExample = withGoogleMap(props => (
       
       <GoogleMap

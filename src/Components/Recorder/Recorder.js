@@ -8,7 +8,7 @@ import Chatbot, {control,dialogstate1,setdialogstate} from '../Chatbot/Chatbot'
 
 
 var audio = ""
-var bootest = 1;
+var Stoptest = 1;
 var merger = 0;
 
 function setMerger(value){
@@ -23,8 +23,7 @@ class App extends Component {
       recording: false,
       recorder:  new RecorderJS()
     };  
-    this.startRecord = this.startRecord.bind(this);
-    this.stopRecord = this.stopRecord.bind(this);
+    
 
   }
 
@@ -44,22 +43,31 @@ class App extends Component {
     this.setState({ stream });
 
     setInterval(() => {
-      //console.log('Interval triggered');
+      /* if dialog state from return response from lex is "ElicitSlot", recording will be start again and 
+      record what user is saying, this is so that the conversation is a flow and does not require a continous trigger(button)
+      to initiate conversation */
       if(dialogstate1 === 'ElicitSlot'){
         this.startRecord()
         setdialogstate("")
       }
-      if (bootest === 0)
-    {
+      /* Stoptest variable is created to checked when user finished speaking and stop the recording*/
+      if (Stoptest === 0)
+      {
       this.stopRecord()
       console.log('1')
-      bootest = 1;
+      Stoptest = 1;
     }
     }, 1);
   }
 
+
+    /*Once recording is started, hark will start.
+    Hark is a platform is will automatically detect whether the user is talking or not
+    Once user stops talking, the recording will then be stopped
+    The next person that edits the codes should find another hark as hark is unreliable and
+    it does not work very well so highly suggested to change it LOL*/
     startRecord() {
-    //merger = 0
+
     console.log("test")
     const { stream } = this.state;
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -82,12 +90,14 @@ class App extends Component {
     
     speechEvents.on('stopped_speaking', function() {
       console.log('stopped_speaking');
-      bootest = 0 
+      Stoptest = 0 
       speechEvents.stop()
     })
     
   }
-
+   /*This function is used to stop the recording of the user and export it to the format which 
+   lex will be able to accept before sending to lex(Chatbot), it will also set merger variable value to one to initiate 
+   the sending of data to lex function in ChatBot.js */ 
    async stopRecord() {
      //try{
     const { recorder } = this.state;
@@ -111,7 +121,7 @@ class App extends Component {
 
   }
   
-
+  /*To render the button if mic is detected*/
   render() {
     const { recording, stream } = this.state;
 

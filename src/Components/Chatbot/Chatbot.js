@@ -9,13 +9,13 @@ var dialogstate1 =0;
 
 
 function Chatbot(props) {
-//const[testvar, setvar] = useState('')
+/* APIres is the text variable in the web App */
 const[APIres, setresponse] = useState("Say 'hi robot' to start")
 
 
 useEffect(() => {
   setInterval(() => {
-    //console.log('Interval triggered');
+    /* merger is to initiated the sending of audio data from user to lex */
     if(merger === 1){
       setMerger(0)
       Lexresponse();
@@ -29,7 +29,10 @@ useEffect(() => {
 })
 
 
-
+/* params contains the paramaters of the bot which the robot will be using.
+   botAlias, botName, contentType, inputStream are required.
+   inputstream has been defined below to take in the audio file that is recorded and 
+   exported to the format which lex accepts */
 var params = {
   botAlias: 'pizzaorderingbot', /* required */
   botName: 'pizzabotdup', /* required */
@@ -43,14 +46,19 @@ var params = {
   //sessionAttributes: any /* This value will be JSON encoded on your behalf with JSON.stringify() */
 };
 
+/* contains the login credentials required to accept AWS. 
+   New and existing identity pool can be created/found at https://console.aws.amazon.com/cognito/home?region=us-east-1# 
+   Region and Id has to be given or else identity will not be found */
 AWS.config.region = 'us-east-1'; // Region
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
   // Provide your Pool Id here
       IdentityPoolId: 'us-east-1:a965f9d5-6111-4304-8cd7-df318a38551d',
   });
 
+/* Creating a lexruntime environment */
 var lexruntime = new AWS.LexRuntime();
 
+/* Function for postcontent lex to check for errors, not essential */
 const test1 = (err, data) => {
   if (err) 
   {
@@ -64,14 +72,17 @@ const test1 = (err, data) => {
   }
 }
 
+/* Posting the information received to lex, parameters defined above are used here to
+   define which chatbot you using */
 function PostToAPI(input) {
   params.inputStream = input
   return lexruntime.postContent(params, test1()).promise();
 } 
 
-let audioUrl1
+/* usespeechsynthesis convert text to speech
+Lexresponse function sending the info and receive the response
+response are then dissected to the various variable to be used */
 const { speak } = useSpeechSynthesis();
-
 async function Lexresponse() {
 
   console.log("2")
